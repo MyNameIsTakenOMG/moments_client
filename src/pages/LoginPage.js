@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {useHistory} from 'react-router-dom'
 import {statusCleared,getUserStatus,getUserProcessing,signUpUser,signInUser, sendResettingRequest} from '../store/user'
 import {useDispatch, useSelector} from 'react-redux'
@@ -33,9 +33,10 @@ export default function LoginPage() {
     const processing = useSelector(getUserProcessing)
     const status = useSelector(getUserStatus)
 
-    const [openOverlay,setOpenOverlay] = useState(false)
-    const [isSignup,setIsSignup] = useState(true)
+    // const [openOverlay,setOpenOverlay] = useState(false)
+    const [isSignup,setIsSignup] = useState(false)
     const [isResetting,setIsResetting] = useState(false)
+    const [isSignin,setIsSignin] = useState(false)
 
     // sign up  & validation
     const [signupForm,setSignupForm] = useState({
@@ -89,73 +90,68 @@ export default function LoginPage() {
             errorData[name] = message
         }
         if(isSignup) setSignupError(errorData)
-        else if(!isResetting) setSigninError(errorData)
-        else setResetError(errorData)
+        else if(isSignin) setSigninError(errorData)
+        else if(isResetting)setResetError(errorData)
     } 
 
     const handleSubmit =(e)=>{
             e.preventDefault()
-            if(openOverlay){
-                if(isSignup){
-                    // validate data
-                    const {error} = signUp_schema.validate(signupForm,{abortEarly:false})
-                    if(error){
-                        console.log('error: ',error.details);
-                        populateError(error.details)
+            if(isSignup){
+                // validate data
+                const {error} = signUp_schema.validate(signupForm,{abortEarly:false})
+                if(error){
+                    console.log('error: ',error.details);
+                    populateError(error.details)
+                }
+                else{
+                    // dispatch action to sign up
+                    const fd = new FormData()
+                    for(let userInfo in signupForm){
+                        fd.append(userInfo, signupForm[userInfo])
                     }
-                    else{
-                        // dispatch action to sign up
-                        const fd = new FormData()
-                        for(let userInfo in signupForm){
-                            fd.append(userInfo, signupForm[userInfo])
-                        }
-                        dispatch(signUpUser(fd,history))
-                        setSignupForm({
-                            su_username:'',
-                            su_password:'',
-                            su_email:'',
-                            su_confirmPassword:''
-                        })
-                        return null
-                    }
+                    dispatch(signUpUser(fd,history))
+                    setSignupForm({
+                        su_username:'',
+                        su_password:'',
+                        su_email:'',
+                        su_confirmPassword:''
+                    })
+                }
 
-                }else if(!isResetting){
-                    // validate data
-                    const {error} = signIn_schema.validate(signinForm,{abortEarly:false})
-                    if(error){
-                        console.log('error: ',error.details);
-                        populateError(error.details)
+            }else if(isSignin){
+                // validate data
+                const {error} = signIn_schema.validate(signinForm,{abortEarly:false})
+                if(error){
+                    console.log('error: ',error.details);
+                    populateError(error.details)
+                }
+                else{
+                    // dispatch action to sign in
+                    const fd = new FormData()
+                    for(let userInfo in signinForm){
+                        fd.append(userInfo, signinForm[userInfo])
                     }
-                    else{
-                        // dispatch action to sign in
-                        const fd = new FormData()
-                        for(let userInfo in signinForm){
-                            fd.append(userInfo, signinForm[userInfo])
-                        }
-                        dispatch(signInUser(fd,history))
-                        setSigninForm({
-                            si_user:'',
-                            si_password:''
-                        })
-                        return null
-                    }
-                }else{
-                    //validate data
-                    const {error} = resetRequest_schema.validate(resetForm,{abortEarly:false})
-                    if(error){
-                        console.log('error: ',error.details);
-                        populateError(error.details)
-                    }
-                    else{
-                        //dispatch action to reset 
-                        const fd = new FormData()
-                        fd.append('rs_email',resetForm.rs_email)
-                        dispatch(sendResettingRequest(fd,history))
-                        setResetForm({
-                            rs_email:''
-                        })
-                        return null
-                    }
+                    dispatch(signInUser(fd,history))
+                    setSigninForm({
+                        si_user:'',
+                        si_password:''
+                    })
+                }
+            }else if(isResetting){
+                //validate data
+                const {error} = resetRequest_schema.validate(resetForm,{abortEarly:false})
+                if(error){
+                    console.log('error: ',error.details);
+                    populateError(error.details)
+                }
+                else{
+                    //dispatch action to reset 
+                    const fd = new FormData()
+                    fd.append('rs_email',resetForm.rs_email)
+                    dispatch(sendResettingRequest(fd,history))
+                    setResetForm({
+                        rs_email:''
+                    })
                 }
             }
     }
@@ -171,90 +167,60 @@ export default function LoginPage() {
     }
     
     const handleSignupOpenClick = (e)=>{
-        setOpenOverlay(true)
         setIsSignup(true)
     }
 
     const handleSignupCloseClick = (e)=>{
-        setOpenOverlay(false)
         setIsSignup(false)
+        setSignupForm({
+            su_username:'',
+            su_password:'',
+            su_email:'',
+            su_confirmPassword:''
+        })
+        setSignupError({})
     }
 
     const handleSigninOpenClick = (e)=>{
-        setOpenOverlay(true)
-        setIsSignup(false)
+        setIsSignin(true)
     }
 
     const handleSigninCloseClick = (e)=>{
-        setOpenOverlay(false)
+        setIsSignin(false)
+        setSigninForm({
+            si_user:'',
+            si_password:''
+        })
+        setSigninError({})
     }
 
     const handleResetOpenClick = (e)=>{
+        setIsSignin(false)
         setIsResetting(true)
     }
 
     const handleResetCloseClick = (e)=>{
+        setIsSignin(true)
         setIsResetting(false)
+        setResetForm({
+            rs_email:''
+        })
+        setResetError({})
     }
-
-    useEffect(()=>{
-        if(!openOverlay){
-            setSignupForm({
-                su_username:'',
-                su_password:'',
-                su_email:'',
-                su_confirmPassword:''
-            })
-            setSigninForm({
-                si_user:'',
-                si_password:''
-            })
-            setResetForm({
-                rs_email:''
-            })
-            setSignupError({})
-            setSigninError({})
-            setResetError({})
-        }
-        else{
-            if(!isSignup){
-                setSignupForm({
-                    su_username:'',
-                    su_password:'',
-                    su_email:'',
-                    su_confirmPassword:''
-                })
-                setSignupError({})
-            }
-            if(isResetting){
-                setSigninForm({
-                    si_user:'',
-                    si_password:''
-                })
-                setSigninError({})
-            }
-            if(!isResetting){
-                setResetForm({
-                    rs_email:''
-                })
-                setResetError({})
-            }
-        }
-    },[openOverlay,isSignup,isResetting])
     
     return (
         // <Box sx={{position:'relative',width:'100%',height:'100%',display:'flex',flexFlow:{xs:'column nowrap',md:'row nowrap'},overflow:'auto'}}> 
         <Box sx={{position:'relative',width:'100%',height:'100%',overflowY:{xs:'auto',md:'hidden'}}}> 
             
             <Helmet>
-                <title>{!openOverlay?'Welcome to Moments':isSignup?'Sign up for Moments':!isResetting?'Sign in for Moments':'Password resetting/Moments'}</title>
+                <title>{!isSignup&&!isSignin&&!isResetting?'Welcome to Moments':isSignup?'Sign up for Moments':isSignin?'Sign in for Moments':'Password resetting/Moments'}</title>
                 <meta name='description' content='Moments cover page, sign up, sign in, password resetting' />
             </Helmet>
 
             <SnackBar processing={processing} status={status} dispatch={dispatch} statusCleared={statusCleared}/>
             
             <Stack sx={{flexFlow:{xs:'column nowrap',md:'row nowrap'}}}>
-                {!openOverlay
+                {!isSignup&&!isSignin&&!isResetting
                 ?
                 // cover page
                 <Box sx={{alignSelf:'center',p:5,display:'flex',flexFlow:'column nowrap',width:{xs:'100%',md:'40%'},maxWidth:'600px'}}>
@@ -309,7 +275,7 @@ export default function LoginPage() {
                             </form>
                         </Stack>
                     </Box>
-                :!isResetting
+                :isSignin
                 ?
                 // Sign-in form 
                 <Box sx={{alignSelf:'center',p:2,height:'100vh',overflowY:{xs:'auto'},backgroundColor:'white',position:{xs:'fixed',md:'static'},maxWidth:{md:'600px'},width:{xs:'100%',md:'40%'}}}>
