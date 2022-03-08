@@ -236,8 +236,6 @@ export default function LoginPage() {
                     </Stack>
                     <Typography variant='h6' sx={{mb:2}}>Join Moments Today.</Typography>
                     <Stack direction='column' spacing={2} mb={3}>
-                        <GoogleLogin className='googleBtn' clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID} buttonText='Sign in with Google' onSuccess={responseGoogle} onFailure={responseGoogle} cookiePolicy={'single_host_origin'}/>
-                        <Divider>or</Divider>
                         <Button variant='outlined' sx={{ borderRadius:'50px'}} onClick={handleSignupOpenClick}>Sign up with your email</Button>
                         <Divider>or</Divider>
                         <Typography >Already have an account?</Typography>
@@ -300,8 +298,8 @@ export default function LoginPage() {
                         <Typography variant='h4' fontWeight={700}>
                             Sign into Moments
                         </Typography>
-                        {/* <GoogleLogin className='googleBtn' clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID} buttonText='Sign in with Google' onSuccess={responseGoogle} onFailure={responseGoogle} cookiePolicy={'single_host_origin'}/>
-                        <Divider>or</Divider> */}
+                        <GoogleLogin className='googleBtn' clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID} buttonText='Sign in with Google' onSuccess={responseGoogle} onFailure={responseGoogle} cookiePolicy={'single_host_origin'}/>
+                        <Divider>or</Divider>
                         <form onSubmit={handleSubmit} style={{display:'flex',flexFlow:'column nowrap',marginBottom:'2rem'}}>
                             <TextField error={signinError['si_user']?true:false} helperText={signinError['si_user']?signinError['si_user']:null} id='si_user' name='si_user' value={signinForm.si_user} label='username or email address'  required aria-required onChange={handleSigninFormChange} />
                             <TextField error={signinError['si_password']?true:false} helperText={signinError['si_password']?signinError['si_password']:null} id='si_password' name='si_password' value={signinForm.si_password} label='password' type='password'  required aria-required onChange={handleSigninFormChange}/>
