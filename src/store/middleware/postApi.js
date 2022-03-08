@@ -6,8 +6,9 @@ import {commentsCleared} from '../comments'
 
 const postApi = ({getState,dispatch})=>next=>async(action)=>{
 
+    let baseURL
     if(process.env.NODE_ENV==='production')
-        axios.defaults.baseURL=process.env.REACT_APP_ENDPOINT
+        baseURL=process.env.REACT_APP_ENDPOINT
 
     if(action.type!==postApiCall.type) return next(action)
 
@@ -19,7 +20,7 @@ const postApi = ({getState,dispatch})=>next=>async(action)=>{
     try {
         // decide if user is logged in
         if(!getState().entities.user.name){
-            const userResponse = await axios.get('/user/load')
+            const userResponse = await axios.get('/user/load',{baseURL})
             dispatch(userInfoLoaded(userResponse.data))
         }
         // like operation
@@ -28,10 +29,10 @@ const postApi = ({getState,dispatch})=>next=>async(action)=>{
             let response=''
             console.log('the id: ',id);
             if(path==='commentPage'){
-                response = await axios.get(`/comments/${url}`)
+                response = await axios.get(`/comments/${url}`,{baseURL})
             }
             else{
-                response = await axios.get(`/posts/${url}`)
+                response = await axios.get(`/posts/${url}`,{baseURL})
             }
             dispatch({type:onSuccess,payload:{id:id,path:path,name:getState().entities.user.name}})
         }
@@ -43,7 +44,7 @@ const postApi = ({getState,dispatch})=>next=>async(action)=>{
                     headers:{
                         'content-type':'multipart/form-data'
                     },
-                    // baseURL:'http://localhost:5000/posts'
+                    baseURL
                 }
                 response = await axios.patch(`/posts/${url}`,data,config) 
                 console.log('response.data :',response.data);
@@ -55,9 +56,9 @@ const postApi = ({getState,dispatch})=>next=>async(action)=>{
                 console.log(' this is from post api, url: ',url);
                 if(path==='commentPage'||path==='postPage'){
                     if(path==='commentPage'){
-                        response = await axios.delete(`/comments/${url}`)
+                        response = await axios.delete(`/comments/${url}`,{baseURL})
                     }else if(path==='postPage'){
-                        response =await axios.delete(`/posts/${url}`)
+                        response =await axios.delete(`/posts/${url}`,{baseURL})
                     }
                     console.log('response.data:',response.data);
                     dispatch({type:onSuccess,payload:{id:id,path:path,message:response.data.message}})
@@ -65,14 +66,14 @@ const postApi = ({getState,dispatch})=>next=>async(action)=>{
                     history.push('/home')
                 }
                 else{
-                    response = await axios.delete(`/posts/${url}`)
+                    response = await axios.delete(`/posts/${url}`,{baseURL})
                     console.log('response.data:',response.data);
                     dispatch({type:onSuccess,payload:{id:id,path:path,message:response.data.message}})
                 }
             }
             // create new post operation
             else if(method==='post'){
-                response = await axios.post(`/posts/${url}`,data)
+                response = await axios.post(`/posts/${url}`,data,{baseURL})
                 console.log('response.data: ',response.data);
                 dispatch({type:onSuccess,payload:response.data})
             }
@@ -82,6 +83,7 @@ const postApi = ({getState,dispatch})=>next=>async(action)=>{
                 const {limit,cursor} = action.payload
                 console.log('this is from postAPI limit and cursor check: ',limit,cursor);
                 response = await axios.request({
+                    baseURL,
                     url:`/posts${url}`,
                     method,
                     params:{
@@ -96,6 +98,7 @@ const postApi = ({getState,dispatch})=>next=>async(action)=>{
             else if(url.match(/search/)){
                 const {limit,query,cursor} = action.payload
                 response = await axios.request({
+                    baseURL,
                     url:`/posts/${url}`,
                     method,
                     params:{
@@ -110,7 +113,7 @@ const postApi = ({getState,dispatch})=>next=>async(action)=>{
             // other operations
             else{
                 response = await axios.request({
-                    // baseURL:'http://localhost:5000/posts',
+                    baseURL,
                     url:`/posts/${url}`,
                     method,
                     data,

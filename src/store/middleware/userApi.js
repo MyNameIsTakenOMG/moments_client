@@ -6,9 +6,9 @@ import axios from 'axios'
 
 const userApi = ({dispatch,getState})=>next=> async action=>{
     console.log('this is userApi middleware in the frontend...');
-
+    let baseURL
     if(process.env.NODE_ENV==='production')
-        axios.defaults.baseURL=process.env.REACT_APP_ENDPOINT
+        baseURL=process.env.REACT_APP_ENDPOINT
 
     if(action.type!==userApiCall.type) return next(action)
 
@@ -22,6 +22,7 @@ const userApi = ({dispatch,getState})=>next=> async action=>{
         if(url.match(/toggle_follow/)){
             const {name} = action.payload
             const response = await axios.request({
+                baseURL,
                 url:`/user/${url}`,
                 method,
             })
@@ -36,6 +37,7 @@ const userApi = ({dispatch,getState})=>next=> async action=>{
             console.log('query: ',query);
             console.log('cursor: ',cursor);
             const response = await axios.request({
+                baseURL,
                 url:`/user/${url}`,
                 method,
                 params:{
@@ -50,6 +52,7 @@ const userApi = ({dispatch,getState})=>next=> async action=>{
         // update user profile operation
         else if(url.match(/profile/)&&method==='patch'){
             const response = await axios.request({
+                baseURL,
                 url:`/user/${url}`,
                 method,
                 data  
@@ -62,12 +65,14 @@ const userApi = ({dispatch,getState})=>next=> async action=>{
             // decide if user is logged in
             if(!getState().entities.user.name){
                 const userResponse = await axios.request({
+                    baseURL,
                     url:'/user/load',
                     method
                 })
                 dispatch(userInfoLoaded(userResponse.data))
             }
             const response = await axios.request({
+                baseURL,
                 url:`/user/${url}`,
                 method,
             })
@@ -78,12 +83,13 @@ const userApi = ({dispatch,getState})=>next=> async action=>{
         else if(url.match(/following|followers|notifications/)){
             // decide if user is loggedin at notifications page
             if(!getState().entities.user.name && url.match(/notifications/)){
-                const userResponse = await axios.get('/user/load')
+                const userResponse = await axios.get('/user/load',{baseURL})
                 dispatch(userInfoLoaded(userResponse.data))
             }
 
             const {cursor,limit} = action.payload
             const response = await axios.request({
+                baseURL,
                 url:`/user/${url}`,
                 method,
                 params:{
@@ -97,6 +103,7 @@ const userApi = ({dispatch,getState})=>next=> async action=>{
         // load sign-in user info operation
         else if(url.match(/load/)){
             const response = await axios.request({
+                baseURL,
                 url:`/user/${url}`,
                 method,
             })
@@ -106,7 +113,7 @@ const userApi = ({dispatch,getState})=>next=> async action=>{
         //other operations (eg, sign-up, sign-in, sign-out, etc)
         else{
             const response = await axios.request({
-                //  baseURL:'http://localhost:5000/user',
+                baseURL,
                 url:`/user/${url}`,
                 method:method,
                 data:data

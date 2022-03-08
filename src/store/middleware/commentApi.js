@@ -5,8 +5,9 @@ import { commentAdded,commentsDeleted } from '../posts'
 
 const commentApi = ({getState,dispatch})=>next=>async(action)=>{
 
+    let baseURL
     if(process.env.NODE_ENV==='production')
-        axios.defaults.baseURL=process.env.REACT_APP_ENDPOINT
+        baseURL=process.env.REACT_APP_ENDPOINT
    
     if(action.type!==commentApiCall.type) return next(action)
 
@@ -20,7 +21,7 @@ const commentApi = ({getState,dispatch})=>next=>async(action)=>{
         if(method==='post'){
             const {isNotifReply} = action.payload
             response = await axios.request({
-                // baseURL:'http://localhost:5000/comments',
+                baseURL,
                 url:`/comments/${url}`,
                 data,
                 method,
@@ -42,7 +43,7 @@ const commentApi = ({getState,dispatch})=>next=>async(action)=>{
         // toggle like operation
         else if(url.search(/toggle_like/)!==-1){
             // const{id} = action.payload
-            response = await axios.get(`/comments/${url}`)
+            response = await axios.get(`/comments/${url}`,{baseURL})
             dispatch({type:onSuccess,payload:{id:id,name:getState().entities.user.name}})
         }
         //delete operation
@@ -50,14 +51,14 @@ const commentApi = ({getState,dispatch})=>next=>async(action)=>{
             const {deleteNum} = action.payload
             console.log('id from comment api: ',id);
             console.log('deleteNum from comment api: ',deleteNum);
-            response = await axios.delete(`/comments/${id}`)
+            response = await axios.delete(`/comments/${id}`,{baseURL})
             dispatch({type:onSuccess,payload:{id:id,message:response.data.message}})
             dispatch(commentsDeleted({path:path,id:id,deleteNum:deleteNum}))
         }
         else if(method==='get'){
             const {cursor,limit} = action.payload
             response = await axios.request({
-                            // baseURL:'http://localhost:5000/comments',
+                            baseURL,
                             url:`/comments/${url}`,
                             data,
                             method,
