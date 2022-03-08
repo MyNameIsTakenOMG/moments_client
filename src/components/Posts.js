@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState,useCallback } from 'react'
 import {useDispatch,useSelector} from 'react-redux'
 import {loadAllPosts,getAllPosts,toggleLikePost, getIsLoading,postStatusCleared ,getIsProcessing,deletePostOrComment, allPostsCleared,updatedPath, getPostStatus} from '../store/posts'
-import {getUserInfo,getUserProcessing,getUserStatus,loadUserInfo,statusCleared,toggleFollowUser} from '../store/user'
+import {getUserInfo,getUserProcessing,getUserStatus,statusCleared,toggleFollowUser} from '../store/user'
 import {useHistory,useLocation} from 'react-router-dom'
 import OverlayForm from './OverlayForm'
 import OptionMenu from './OptionMenu'

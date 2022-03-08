@@ -60,7 +60,7 @@ export default function Profile() {
             dispatch(profileCleared())
             dispatch(profilePostsCleared())
         }
-    },[username])
+    },[username,dispatch,history,location.pathname])
 
     // intersection observers 
     const theRoot = useRef()

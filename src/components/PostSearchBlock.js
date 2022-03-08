@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box,Stack,Typography,IconButton } from '@mui/material'
+import { Box,Stack,Typography } from '@mui/material'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import { grey,lightBlue } from '@mui/material/colors';
@@ -9,7 +9,7 @@ import dayjs from '../day-js/dayjs';
 export default function PostSearchBlock({searchedPost}) {
     return (
         <Box sx={{position:'relative',display:'flex',flexFlow:'row nowrap',transition:'all 0.1s ease-in-out',cursor:'pointer','&:hover':{backgroundColor:grey[200]}}}>
-            <img src={searchedPost.image} alt="no image found" style={{width:'40%',minHeight:'180px',objectFit:'cover'}}/>
+            <img src={searchedPost.image} style={{width:'40%',minHeight:'180px',objectFit:'cover'}}/>
             <Box sx={{flexGrow:1,p:1,display:'flex',flexFlow:'column nowrap'}}>
                 <Stack sx={{flexGrow:1}} direction='column' mt={2} spacing={1} justifyContent={'space-around'} alignItems={'center'} flexGrow={1}>
                     <Typography variant='h6' textAlign={'center'} >{searchedPost.title}</Typography>

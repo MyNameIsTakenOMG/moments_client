@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import {useLocation} from 'react-router-dom'
 import {useDispatch} from 'react-redux'
 
-import {styled} from '@mui/material/styles'
 import {Box} from '@mui/system';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';

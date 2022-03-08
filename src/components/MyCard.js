@@ -1,7 +1,6 @@
 import React from 'react'
 import {useHistory} from 'react-router-dom'
 import dayjs from '../day-js/dayjs';
-import {styled} from '@mui/material/styles'
 import { Card } from '@mui/material';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
@@ -10,7 +9,7 @@ import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red ,blue,grey} from '@mui/material/colors';
+import {blue} from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
