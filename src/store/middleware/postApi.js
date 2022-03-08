@@ -9,6 +9,7 @@ const postApi = ({getState,dispatch})=>next=>async(action)=>{
     let baseURL
     if(process.env.NODE_ENV==='production')
         baseURL=process.env.REACT_APP_ENDPOINT
+    console.log('baseURL: ',baseURL);
 
     if(action.type!==postApiCall.type) return next(action)
 
