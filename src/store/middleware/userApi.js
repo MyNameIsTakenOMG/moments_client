@@ -119,6 +119,8 @@ const userApi = ({dispatch,getState})=>next=> async action=>{
                 data:data
             })
             console.log('response.data: ',response.data);
+            console.log('response.headers: ',response.headers);
+            console.log('response.config: ',response.config);
             if(onSuccess) dispatch({type:onSuccess,payload:response.data})
             if(url==='/signout'){
                 history.push('/login')
