@@ -89,7 +89,8 @@ const postApi = ({getState,dispatch})=>next=>async(action)=>{
                     method,
                     params:{
                         limit,
-                        cursor
+                        cursor,
+                        cookie:document.cookie
                     }
                 })
                 console.log('response.data:',response.data);
