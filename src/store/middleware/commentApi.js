@@ -5,9 +5,9 @@ import { commentAdded,commentsDeleted } from '../posts'
 
 const commentApi = ({getState,dispatch})=>next=>async(action)=>{
 
-    let baseURL
-    if(process.env.NODE_ENV==='production')
-        baseURL=process.env.REACT_APP_ENDPOINT
+    let baseURL=process.env.REACT_APP_ENDPOINT
+    // if(process.env.NODE_ENV==='production')
+    //     baseURL=process.env.REACT_APP_ENDPOINT
    
     if(action.type!==commentApiCall.type) return next(action)
 
