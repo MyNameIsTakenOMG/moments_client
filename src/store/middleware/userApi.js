@@ -25,7 +25,7 @@ const userApi = ({dispatch,getState})=>next=> async action=>{
                 baseURL,
                 url:`/api/user/${url}`,
                 method,
-                withCredentials:true
+                
             })
             console.log('the response.data: ',response.data);
             dispatch({type:onSuccess,payload:{name:name,message:response.data.message}})
@@ -46,7 +46,7 @@ const userApi = ({dispatch,getState})=>next=> async action=>{
                     cursor,
                     query
                 },
-                withCredentials:true
+                
             })
             console.log('the response.data: ',response.data);
             dispatch({type:onSuccess,payload:response.data})
@@ -58,7 +58,7 @@ const userApi = ({dispatch,getState})=>next=> async action=>{
                 url:`/api/user/${url}`,
                 method,
                 data ,
-                withCredentials:true 
+                 
             })
             console.log('response.data: ',response.data);
             dispatch({type:onSuccess,payload:response.data})
@@ -71,7 +71,7 @@ const userApi = ({dispatch,getState})=>next=> async action=>{
                     baseURL,
                     url:'/api/user/load',
                     method,
-                    withCredentials:true
+                    
                 })
                 dispatch(userInfoLoaded(userResponse.data))
             }
@@ -79,7 +79,7 @@ const userApi = ({dispatch,getState})=>next=> async action=>{
                 baseURL,
                 url:`/api/user/${url}`,
                 method,
-                withCredentials:true
+                
             })
             console.log('response.data: ',response.data);
             dispatch({type:onSuccess,payload:response.data})
@@ -101,7 +101,7 @@ const userApi = ({dispatch,getState})=>next=> async action=>{
                     cursor,
                     limit
                 },
-                withCredentials:true
+                
             })
             console.log('the response.data: ',response.data);
             dispatch({type:onSuccess,payload:response.data})
@@ -112,7 +112,7 @@ const userApi = ({dispatch,getState})=>next=> async action=>{
                 baseURL,
                 url:`/api/user/${url}`,
                 method,
-                withCredentials:true
+                
             })
             console.log('response.data: ',response.data);
             dispatch({type:onSuccess,payload:response.data})
@@ -124,7 +124,7 @@ const userApi = ({dispatch,getState})=>next=> async action=>{
                 url:`/api/user/${url}`,
                 method:method,
                 data:data,
-                withCredentials:true
+                
             })
             console.log('response.data: ',response.data);
             console.log('response.headers: ',response.headers);
