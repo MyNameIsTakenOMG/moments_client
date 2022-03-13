@@ -22,7 +22,7 @@ const commentApi = ({getState,dispatch})=>next=>async(action)=>{
             const {isNotifReply} = action.payload
             response = await axios.request({
                 baseURL,
-                url:`/comments/${url}`,
+                url:`/api/comments/${url}`,
                 data,
                 method,
                 headers:{
@@ -43,7 +43,7 @@ const commentApi = ({getState,dispatch})=>next=>async(action)=>{
         // toggle like operation
         else if(url.search(/toggle_like/)!==-1){
             // const{id} = action.payload
-            response = await axios.get(`/comments/${url}`,{baseURL})
+            response = await axios.get(`/api/comments/${url}`,{baseURL})
             dispatch({type:onSuccess,payload:{id:id,name:getState().entities.user.name}})
         }
         //delete operation
@@ -51,7 +51,7 @@ const commentApi = ({getState,dispatch})=>next=>async(action)=>{
             const {deleteNum} = action.payload
             console.log('id from comment api: ',id);
             console.log('deleteNum from comment api: ',deleteNum);
-            response = await axios.delete(`/comments/${id}`,{baseURL})
+            response = await axios.delete(`/api/comments/${id}`,{baseURL})
             dispatch({type:onSuccess,payload:{id:id,message:response.data.message}})
             dispatch(commentsDeleted({path:path,id:id,deleteNum:deleteNum}))
         }
@@ -59,7 +59,7 @@ const commentApi = ({getState,dispatch})=>next=>async(action)=>{
             const {cursor,limit} = action.payload
             response = await axios.request({
                             baseURL,
-                            url:`/comments/${url}`,
+                            url:`/api/comments/${url}`,
                             data,
                             method,
                             params:{

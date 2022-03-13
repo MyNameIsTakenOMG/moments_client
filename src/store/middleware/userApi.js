@@ -23,7 +23,7 @@ const userApi = ({dispatch,getState})=>next=> async action=>{
             const {name} = action.payload
             const response = await axios.request({
                 baseURL,
-                url:`/user/${url}`,
+                url:`/api/user/${url}`,
                 method,
                 withCredentials:true
             })
@@ -39,7 +39,7 @@ const userApi = ({dispatch,getState})=>next=> async action=>{
             console.log('cursor: ',cursor);
             const response = await axios.request({
                 baseURL,
-                url:`/user/${url}`,
+                url:`/api/user/${url}`,
                 method,
                 params:{
                     limit,
@@ -55,7 +55,7 @@ const userApi = ({dispatch,getState})=>next=> async action=>{
         else if(url.match(/profile/)&&method==='patch'){
             const response = await axios.request({
                 baseURL,
-                url:`/user/${url}`,
+                url:`/api/user/${url}`,
                 method,
                 data ,
                 withCredentials:true 
@@ -69,7 +69,7 @@ const userApi = ({dispatch,getState})=>next=> async action=>{
             if(!getState().entities.user.name){
                 const userResponse = await axios.request({
                     baseURL,
-                    url:'/user/load',
+                    url:'/api/user/load',
                     method,
                     withCredentials:true
                 })
@@ -77,7 +77,7 @@ const userApi = ({dispatch,getState})=>next=> async action=>{
             }
             const response = await axios.request({
                 baseURL,
-                url:`/user/${url}`,
+                url:`/api/user/${url}`,
                 method,
                 withCredentials:true
             })
@@ -88,14 +88,14 @@ const userApi = ({dispatch,getState})=>next=> async action=>{
         else if(url.match(/following|followers|notifications/)){
             // decide if user is loggedin at notifications page
             if(!getState().entities.user.name && url.match(/notifications/)){
-                const userResponse = await axios.get('/user/load',{baseURL})
+                const userResponse = await axios.get('/api/user/load',{baseURL})
                 dispatch(userInfoLoaded(userResponse.data))
             }
 
             const {cursor,limit} = action.payload
             const response = await axios.request({
                 baseURL,
-                url:`/user/${url}`,
+                url:`/api/user/${url}`,
                 method,
                 params:{
                     cursor,
@@ -110,7 +110,7 @@ const userApi = ({dispatch,getState})=>next=> async action=>{
         else if(url.match(/load/)){
             const response = await axios.request({
                 baseURL,
-                url:`/user/${url}`,
+                url:`/api/user/${url}`,
                 method,
                 withCredentials:true
             })
@@ -121,7 +121,7 @@ const userApi = ({dispatch,getState})=>next=> async action=>{
         else{
             const response = await axios.request({
                 baseURL,
-                url:`/user/${url}`,
+                url:`/api/user/${url}`,
                 method:method,
                 data:data,
                 withCredentials:true
