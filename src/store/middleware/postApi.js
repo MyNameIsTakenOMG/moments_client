@@ -21,7 +21,7 @@ const postApi = ({getState,dispatch})=>next=>async(action)=>{
     try {
         // decide if user is logged in
         if(!getState().entities.user.name){
-            const userResponse = await axios.get('/api/user/load',{baseURL})
+            const userResponse = await axios.get('/api/user/load',{baseURL,withCredentials:true})
             dispatch(userInfoLoaded(userResponse.data))
         }
         // like operation
@@ -30,10 +30,10 @@ const postApi = ({getState,dispatch})=>next=>async(action)=>{
             let response=''
             console.log('the id: ',id);
             if(path==='commentPage'){
-                response = await axios.get(`/api/comments/${url}`,{baseURL})
+                response = await axios.get(`/api/comments/${url}`,{baseURL,withCredentials:true})
             }
             else{
-                response = await axios.get(`/api/posts/${url}`,{baseURL})
+                response = await axios.get(`/api/posts/${url}`,{baseURL,withCredentials:true})
             }
             dispatch({type:onSuccess,payload:{id:id,path:path,name:getState().entities.user.name}})
         }
@@ -45,7 +45,8 @@ const postApi = ({getState,dispatch})=>next=>async(action)=>{
                     headers:{
                         'content-type':'multipart/form-data'
                     },
-                    baseURL
+                    baseURL,
+                    withCredentials:true
                 }
                 response = await axios.patch(`/api/posts/${url}`,data,config) 
                 console.log('response.data :',response.data);
@@ -57,9 +58,9 @@ const postApi = ({getState,dispatch})=>next=>async(action)=>{
                 console.log(' this is from post api, url: ',url);
                 if(path==='commentPage'||path==='postPage'){
                     if(path==='commentPage'){
-                        response = await axios.delete(`/api/comments/${url}`,{baseURL})
+                        response = await axios.delete(`/api/comments/${url}`,{baseURL,withCredentials:true})
                     }else if(path==='postPage'){
-                        response =await axios.delete(`/api/posts/${url}`,{baseURL})
+                        response =await axios.delete(`/api/posts/${url}`,{baseURL,withCredentials:true})
                     }
                     console.log('response.data:',response.data);
                     dispatch({type:onSuccess,payload:{id:id,path:path,message:response.data.message}})
@@ -67,14 +68,14 @@ const postApi = ({getState,dispatch})=>next=>async(action)=>{
                     history.push('/home')
                 }
                 else{
-                    response = await axios.delete(`/api/posts/${url}`,{baseURL})
+                    response = await axios.delete(`/api/posts/${url}`,{baseURL,withCredentials:true})
                     console.log('response.data:',response.data);
                     dispatch({type:onSuccess,payload:{id:id,path:path,message:response.data.message}})
                 }
             }
             // create new post operation
             else if(method==='post'){
-                response = await axios.post(`/api/posts/${url}`,data,{baseURL})
+                response = await axios.post(`/api/posts/${url}`,data,{baseURL,withCredentials:true})
                 console.log('response.data: ',response.data);
                 dispatch({type:onSuccess,payload:response.data})
             }
@@ -91,7 +92,8 @@ const postApi = ({getState,dispatch})=>next=>async(action)=>{
                         limit,
                         cursor,
                         cookie:document.cookie
-                    }
+                    },
+                    withCredentials:true
                 })
                 console.log('response.data:',response.data);
                 dispatch({type:onSuccess,payload:response.data})
@@ -107,7 +109,8 @@ const postApi = ({getState,dispatch})=>next=>async(action)=>{
                         limit,
                         query,
                         cursor
-                    }
+                    },
+                    withCredentials:true
                 })
                 console.log('the response.data: ',response.data);
                 dispatch({type:onSuccess,payload:response.data})
@@ -121,7 +124,8 @@ const postApi = ({getState,dispatch})=>next=>async(action)=>{
                     data,
                     params:{
                         type
-                    }
+                    },
+                    withCredentials:true
                 })
                 console.log('response.data:',response.data);
                 console.log('onSuccess: ', onSuccess);
