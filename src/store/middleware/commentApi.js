@@ -5,7 +5,7 @@ import { commentAdded,commentsDeleted } from '../posts'
 
 const commentApi = ({getState,dispatch})=>next=>async(action)=>{
 
-    let baseURL=process.env.REACT_APP_ENDPOINT
+    let baseURL='https://api.momentsapp.zhengfangdev.com'
     // if(process.env.NODE_ENV==='production')
     //     baseURL=process.env.REACT_APP_ENDPOINT
    
