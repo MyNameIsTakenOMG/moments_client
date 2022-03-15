@@ -35,31 +35,43 @@ export default function Posts() {
     const theRoot = useRef()
     const lastPost = useLastItem(theRoot,postLoading,allPosts.cursor,dispatch,loadAllPosts(history,allPosts.cursor,limit.current))
 
-    useEffect(()=>{
-        dispatch(updatedPath({path:location.pathname}))
-        dispatch(loadAllPosts(history,allPosts.cursor,limit.current))
-        return ()=>{
-            dispatch(allPostsCleared()) 
-            // dispatch(statusCleared())
-            dispatch(postStatusCleared())
-            dispatch(commentStatusCleared())
-        }
-    },[])
-
-    useEffect(()=>{
-        dispatch(allPostsCleared())
-        dispatch(loadAllPosts(history,allPosts.cursor,limit.current))
-    },[location.key])
+    // useEffect(()=>{
+    //     dispatch(updatedPath({path:location.pathname}))
+    //     dispatch(loadAllPosts(history,allPosts.cursor,limit.current))
+    //     return ()=>{
+    //         dispatch(allPostsCleared()) 
+    //         // dispatch(statusCleared())
+    //         dispatch(postStatusCleared())
+    //         dispatch(commentStatusCleared())
+    //     }
+    // },[])
 
     // first loading & skeleton
     const [firstLoading, setFirstLoading] = useState(true)
-
+  
+    useEffect(()=>{
+        setFirstLoading(true)
+        dispatch(updatedPath({path:location.pathname}))
+        dispatch(allPostsCleared())
+        return ()=>{
+            dispatch(allPostsCleared()) 
+            dispatch(postStatusCleared())
+            dispatch(commentStatusCleared())
+        }
+    },[location.key])
+    
+    useEffect(()=>{
+        if(!allPosts.cursor&&allPosts.array.length===0&&firstLoading){
+            dispatch(loadAllPosts(history,allPosts.cursor,limit.current))
+        }
+    },[firstLoading])
+    
     useEffect(() => {
         if(!postLoading && firstLoading){
             setFirstLoading(false)
         }
     }, [postLoading])
-
+    
     // option menu  & delete dialog 
     const [anchorEl,setAnchorEl] = useState(null)
     const openMenu = Boolean(anchorEl)
