@@ -36,6 +36,7 @@ export default function Posts() {
     const lastPost = useLastItem(theRoot,postLoading,allPosts.cursor,dispatch,loadAllPosts(history,allPosts.cursor,limit.current))
 
     useEffect(()=>{
+        dispatch(allPostsCleared()) 
         dispatch(updatedPath({path:location.pathname}))
         dispatch(loadAllPosts(history,allPosts.cursor,limit.current))
         return ()=>{
