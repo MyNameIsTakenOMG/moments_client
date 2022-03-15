@@ -55,6 +55,7 @@ export default function MainPage() {
                     </Paper>
                 </Box>
                 <Container />
+                <Box sx={{width:'100%',height:'77.33px',display:{xs:'block',sm:'none'}}}></Box>
                 <NavBar />
             </Box>
         </Box>
