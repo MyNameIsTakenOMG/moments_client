@@ -21,7 +21,7 @@ const MyNavBar = styled('div')(({theme})=>({
         boxShadow:`0 -1px 1px ${grey[300]}`,
         flexFlow:'nowrap row',
         width:'100%',
-        position:'sticky',
+        position:'fixed',
         bottom:0
     },
     [theme.breakpoints.up('sm')]:{
