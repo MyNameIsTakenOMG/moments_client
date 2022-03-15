@@ -50,21 +50,16 @@ export default function Posts() {
     const [firstLoading, setFirstLoading] = useState(true)
   
     useEffect(()=>{
-        setFirstLoading(true)
         dispatch(updatedPath({path:location.pathname}))
         dispatch(allPostsCleared())
+        setFirstLoading(true)
+        dispatch(loadAllPosts(history,allPosts.cursor,limit.current))
         return ()=>{
             dispatch(allPostsCleared()) 
             dispatch(postStatusCleared())
             dispatch(commentStatusCleared())
         }
     },[location.key])
-    
-    useEffect(()=>{
-        if(!allPosts.cursor&&allPosts.array.length===0&&firstLoading){
-            dispatch(loadAllPosts(history,allPosts.cursor,limit.current))
-        }
-    },[firstLoading])
     
     useEffect(() => {
         if(!postLoading && firstLoading){
