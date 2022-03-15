@@ -17,7 +17,7 @@ export default function MainPage() {
     const userInfo = useSelector(getUserInfo)
 
     return (
-        <Box sx={{position:'relative',width:'100vw',height:'100vh',overflow:'hidden',display:'flex',flexFlow:'column nowrap'}}>
+        <Box sx={{position:'relative',width:'100%',height:'100%',overflow:'hidden',display:'flex',flexFlow:'column nowrap'}}>
             <Banner />
             <Box sx={{height:'calc(100% - 72px)',display:'flex',justifyContent:{sm:'flex-end'},flexFlow:{xs:'column nowrap',sm:'row-reverse nowrap'}}}>
                 {/* profile board  */}
