@@ -20,17 +20,13 @@ const MyNavBar = styled('div')(({theme})=>({
     [theme.breakpoints.up('xs')]:{
         boxShadow:`0 -1px 1px ${grey[300]}`,
         flexFlow:'nowrap row',
-        width:'100%',
-        position:'fixed',
-        bottom:0,
-        left:0
+        width:'100%'
     },
     [theme.breakpoints.up('sm')]:{
         boxShadow:`1px 0 1px ${grey[300]}`,
         flexFlow:'nowrap column',
         width:'20%',
-        // maxWidth:'288px',,
-        position:'static'
+        // maxWidth:'288px',
     },
     zIndex:10
 }))
