@@ -44,7 +44,7 @@ export default function Posts() {
             dispatch(postStatusCleared())
             dispatch(commentStatusCleared())
         }
-    },[])
+    },[location.key])
 
     // first loading & skeleton
     const [firstLoading, setFirstLoading] = useState(true)
