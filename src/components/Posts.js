@@ -35,32 +35,19 @@ export default function Posts() {
     const theRoot = useRef()
     const lastPost = useLastItem(theRoot,postLoading,allPosts.cursor,dispatch,loadAllPosts(history,allPosts.cursor,limit.current))
 
-    // useEffect(()=>{
-    //     dispatch(updatedPath({path:location.pathname}))
-    //     dispatch(loadAllPosts(history,allPosts.cursor,limit.current))
-    //     return ()=>{
-    //         dispatch(allPostsCleared()) 
-    //         // dispatch(statusCleared())
-    //         dispatch(postStatusCleared())
-    //         dispatch(commentStatusCleared())
-    //     }
-    // },[])
-
     // first loading & skeleton
     const [firstLoading, setFirstLoading] = useState(true)
   
     useEffect(()=>{
         dispatch(updatedPath({path:location.pathname}))
-        dispatch(allPostsCleared())
-        setFirstLoading(true)
-        dispatch(loadAllPosts(history,allPosts.cursor,limit.current))
+        dispatch(loadAllPosts(history,null,limit.current))
         return ()=>{
             dispatch(allPostsCleared()) 
             dispatch(postStatusCleared())
             dispatch(commentStatusCleared())
         }
     },[location.key])
-    
+
     useEffect(() => {
         if(!postLoading && firstLoading){
             setFirstLoading(false)
@@ -131,7 +118,7 @@ export default function Posts() {
         // })
     }
 
-    const debouncingLike = useCallback(_.debounce((id)=>{dispatch(toggleLikePost(id,history,'allPosts'))},120),[])
+    const debouncingLike = useCallback(_.debounce((id)=>{dispatch(toggleLikePost(id,history,'allPosts'))},500),[])
     const handleLikeClick = (e,id)=>{
         // dispatch(toggleLikePost(id,history,'allPosts'))
         debouncingLike(id)

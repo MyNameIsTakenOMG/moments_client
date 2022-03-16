@@ -90,7 +90,7 @@ export default function Banner() {
     }
 
     // debouncing
-    const debouncingNotifs = useCallback(_.debounce(()=>history.push('/notifications'),120),[])
+    const debouncingNotifs = useCallback(_.debounce(()=>history.push('/notifications'),500),[])
     const handleNotifClick = (e)=>{
         // history.push('/notifications')
         debouncingNotifs()
@@ -142,7 +142,7 @@ export default function Banner() {
                         <NotificationsNoneIcon />
                     </Badge>
                 </IconButton>
-                <Typography variant='subtitle2' sx={{color:'black',alignSelf:'center',width:'60px',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>Hi, <Tooltip title={userInfo.name}><span style={{fontSize:'inherit'}}>{userInfo.name}</span></Tooltip></Typography>
+                <Typography variant='subtitle2' sx={{color:'black',alignSelf:'center',width:{xs:'60px',md:'80px',lg:'100px'},whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>Hi, <Tooltip title={userInfo.name}><span style={{fontSize:'inherit'}}>{userInfo.name}</span></Tooltip></Typography>
                 <Avatar sx={{width:{xs:40,lg:48,xl:56},height:{xs:40,lg:48,xl:56},cursor:'pointer'}} src={!userInfo.avatar?'https://res.cloudinary.com/dviagu5kq/image/upload/q_50/v1639519312/momentsApp/icon_user_default.svg':userInfo.avatar} onClick={handleOpenMenu}>N</Avatar>
             </Stack> 
         </Box>

@@ -34,20 +34,19 @@ export default function MyPosts() {
     const limit = useRef(10)
     const theRoot = useRef()
     const lastPost = useLastItem(theRoot,postLoading,myPosts.cursor,dispatch,loadMyPosts(history,myPosts.cursor,limit.current))
-
+    
+    //first loading & skeleton
+    const [firstLoading, setFirstLoading] = useState(true)
+    
     useEffect(()=>{
         dispatch(updatedPath({path:location.pathname}))
-        dispatch(loadMyPosts(history,myPosts.cursor,limit.current))
+        dispatch(loadMyPosts(history,null,limit.current))
         return ()=>{
             dispatch(myPostsCleared())
-            // dispatch(statusCleared())
             dispatch(postStatusCleared())
             dispatch(commentStatusCleared())
         }
-    },[])
-
-    //first loading & skeleton
-    const [firstLoading, setFirstLoading] = useState(true)
+    },[location.key])
 
     useEffect(() => {
         if(!postLoading && firstLoading){

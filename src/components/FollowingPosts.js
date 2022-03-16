@@ -34,20 +34,19 @@ export default function FollowingPosts() {
     const limit = useRef(10)
     const theRoot = useRef()
     const lastPost = useLastItem(theRoot,postLoading,followingPosts.cursor,dispatch,loadFollowingPosts(history,followingPosts.cursor,limit.current))
+    
+    // first loading & skeleton
+    const [firstLoading, setFirstLoading] = useState(true)
 
     useEffect(()=>{
         dispatch(updatedPath({path:location.pathname}))
-        dispatch(loadFollowingPosts(history,followingPosts.cursor,limit.current))
+        dispatch(loadFollowingPosts(history,null,limit.current))
         return ()=>{
             dispatch(followingPostsCleared())
-            // dispatch(statusCleared())
             dispatch(postStatusCleared())
             dispatch(commentStatusCleared())
         }
-    },[])
-
-    // first loading & skeleton
-    const [firstLoading, setFirstLoading] = useState(true)
+    },[location.key])
 
     useEffect(() => {
         if(!postLoading && firstLoading){
@@ -113,7 +112,7 @@ export default function FollowingPosts() {
         })
     }
 
-    const debouncingLike = useCallback(_.debounce((id)=>{dispatch(toggleLikePost(id,history,'followingPosts'))},120),[])
+    const debouncingLike = useCallback(_.debounce((id)=>{dispatch(toggleLikePost(id,history,'followingPosts'))},500),[])
     const handleLikeClick = (e,id)=>{
         // dispatch(toggleLikePost(id,history,'followingPosts'))
         debouncingLike(id)

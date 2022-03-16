@@ -107,7 +107,7 @@ export default function Search() {
 
     const debouncingFollow = useCallback(_.debounce((username,history)=>{
         dispatch(toggleFollowUser(username,history))
-    },120)
+    },500)
     ,[])
     const handleToggleFollow = (e,username,history)=>{
         e.stopPropagation()

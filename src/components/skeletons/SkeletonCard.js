@@ -15,7 +15,7 @@ export default function SkeletonCard({path}) {
             subheader={<Skeleton variant='text' height={10} width={'60%'} />}
         />
         {path.match(/home|myPosts|followingPosts|post/)
-        ?<Skeleton variant='rectangular' sx={{width:'100%',height:{xs:'194px',sm:'320px',lg:'480px'}}}/>
+        ?<Skeleton variant='rectangular' sx={{width:'100%',height:{xs:'194px',sm:'320px',xl:'480px'}}}/>
         :null}
         
         <CardContent>

@@ -91,7 +91,7 @@ export default function Post() {
               else if(postId!==id)
                 dispatch(toggleLikeComment(id,history))
             }
-        ,120)
+        ,500)
       ,[])
     const handleLikeClick = (e,id)=>{
       debouncingLike(id)

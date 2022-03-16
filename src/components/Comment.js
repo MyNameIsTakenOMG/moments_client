@@ -92,7 +92,7 @@ export default function Comment() {
               else if(commentId!==id)
                 dispatch(toggleLikeComment(id,history))
             }
-        ,120)
+        ,500)
       ,[])
     
     const handleLikeClick = (e,id)=>{

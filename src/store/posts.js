@@ -7,7 +7,6 @@ const Slice = createSlice({
         allPosts:{
             array:[],
             cursor:null,
-            isLoading:true
         },
         followingPosts:{
             array:[],

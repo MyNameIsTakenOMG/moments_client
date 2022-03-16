@@ -43,7 +43,7 @@ export default function NewPost() {
         return ()=>{
             dispatch(postStatusCleared())
         }
-    },[])
+    },[location.key])
 
     // validation
     const { post_schema} = joiSchemas

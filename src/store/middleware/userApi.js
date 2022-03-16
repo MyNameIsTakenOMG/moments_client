@@ -6,7 +6,8 @@ import axios from 'axios'
 
 const userApi = ({dispatch,getState})=>next=> async action=>{
     console.log('this is userApi middleware in the frontend...');
-    let baseURL='https://api.momentsapp.zhengfangdev.com'
+    let baseURL=process.env.NETLIFY===true?process.env.REACT_APP_ENDPOINT:null
+
     // if(process.env.NODE_ENV==='production')
     //     baseURL=process.env.REACT_APP_ENDPOINT
 

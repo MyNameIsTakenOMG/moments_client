@@ -75,7 +75,7 @@ export default function NavBar() {
     const history = useHistory()
     const path = useSelector(getPath)
 
-    const debouncingClick = useCallback(_.debounce((id)=>history.push(`/${id}`),120),[])
+    const debouncingClick = useCallback(_.debounce((id)=>history.push(`/${id}`),500),[])
 
     const handleClick = (e)=>{   
             // history.push(`/${e.currentTarget.id}`)

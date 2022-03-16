@@ -30,18 +30,18 @@ export default function Notifications() {
     const limit = useRef(10)
     const theRoot = useRef()
     const lastNotif = useLastItem(theRoot,userInfo.isLoading,userInfo.notifications.cursor,dispatch,loadNotifs(userInfo.name,userInfo.notifications.cursor,limit.current,history))
-
+    
+    // first loading & skeleton
+    const [firstLoading, setFirstLoading] = useState(true)
+    
     useEffect(()=>{
         dispatch(updatedPath({path:location.pathname}))
-        dispatch(loadNotifs(userInfo.name,userInfo.notifications.cursor,limit.current,history))
+        dispatch(loadNotifs(userInfo.name,null,limit.current,history))
         return ()=>{
             dispatch(notifsCleared())
             dispatch(commentStatusCleared())
         } 
-    },[])
-
-    // first loading & skeleton
-    const [firstLoading, setFirstLoading] = useState(true)
+    },[location.key])
 
     useEffect(() => {
         if(!userInfo.isLoading && firstLoading){
