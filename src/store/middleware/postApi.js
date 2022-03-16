@@ -6,7 +6,8 @@ import {commentsCleared} from '../comments'
 
 const postApi = ({getState,dispatch})=>next=>async(action)=>{
 
-    let baseURL=process.env.NETLIFY===true?process.env.REACT_APP_ENDPOINT:null
+    // let baseURL=process.env.NETLIFY===true?process.env.REACT_APP_ENDPOINT:null
+    let baseURL=process.env.NODE_ENV==='production'?process.env.REACT_APP_ENDPOINT:null
     console.log('node_env: ',process.env.NODE_ENV);
     console.log('netlify:',process.env.NETLIFY);
     // if(process.env.NODE_ENV==='production')

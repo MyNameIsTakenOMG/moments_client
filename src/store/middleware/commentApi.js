@@ -5,7 +5,8 @@ import { commentAdded,commentsDeleted } from '../posts'
 
 const commentApi = ({getState,dispatch})=>next=>async(action)=>{
 
-    let baseURL=process.env.NETLIFY===true?process.env.REACT_APP_ENDPOINT:null
+    // let baseURL=process.env.NETLIFY===true?process.env.REACT_APP_ENDPOINT:null
+    let baseURL=process.env.NODE_ENV==='production'?process.env.REACT_APP_ENDPOINT:null
     // if(process.env.NODE_ENV==='production')
     //     baseURL=process.env.REACT_APP_ENDPOINT
    
