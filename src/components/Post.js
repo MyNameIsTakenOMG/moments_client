@@ -140,7 +140,7 @@ export default function Post() {
   return (
     <div ref={theRoot} style={{width: "100%",height: "100%",position: "relative",overflow: "auto",display: "flex",flexFlow: "column nowrap",}}>
       <Helmet>
-        <title>{thePost.author} posted: {thePost.title}/Moments</title>
+        <title>{`${thePost.author} posted: ${thePost.title}/Moments`}</title>
         <meta name='description' content={`the post: ${thePost.title}, the author: ${thePost.author} `} />
       </Helmet>
       

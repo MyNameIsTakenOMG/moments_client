@@ -242,14 +242,14 @@ export default function Profile() {
     return (         
         <div ref={theRoot} style={{width:'100%',height:'100%',position:'relative',overflow:'auto',display:'flex',flexFlow:'column nowrap'}}>
             <Helmet>
-                <title>User profile: {userInfo.profile.user.username}({userInfo.profile.user.email})/Moments</title>
+                <title>{`User profile: ${userInfo.profile.user.username}(${userInfo.profile.user.email})/Moments`}</title>
                 <meta name='description' content={`user profile, user:${userInfo.profile.user.username}`} />
             </Helmet>
 
             {/* toggle follow & edit user profile & logout */}
             <SnackBar processing={userProcessing} status={userStatus} dispatch={dispatch} statusCleared={statusCleared} />
             <Box sx={{position:'sticky',top:0,zIndex:10,backgroundColor:'white'}}>
-                <BackBar />
+                <BackBar title='Profile' />
             </Box>
             <Stack direction='column' spacing={2} mt={1} ml={3} mr={3}>
                 {!userInfo.profile.user.username

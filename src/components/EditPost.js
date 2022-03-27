@@ -142,7 +142,7 @@ export default function EditPost() {
     return (
             <Box sx={{position:'relative',display:'flex',flexFlow:'column nowrap', width:'100%',height:'100%'}}>
                 <Helmet>
-                    <title>Post editing: {thePost.title}/Moments</title>
+                    <title>{`Post editing: ${thePost.title}/Moments`}</title>
                     <meta name='description' content={`editing page, the post: ${thePost.title}, the author: ${thePost.author}`} />
                 </Helmet>
 

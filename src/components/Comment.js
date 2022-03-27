@@ -142,7 +142,7 @@ export default function Comment() {
   return (
     <div ref={theRoot} style={{width: "100%",height: "100%",position: "relative",overflow: "auto",display: "flex",flexFlow: "column nowrap",}}>
       <Helmet>
-        <title>{theComment.author} commented: {theComment.contents}/Moments</title>
+        <title>{`${theComment.author} commented: ${theComment.contents}/Moments`}</title>
         <meta name='description' content={`the comment: ${theComment.contents}, the author: ${theComment.author} `} />
       </Helmet>
       
