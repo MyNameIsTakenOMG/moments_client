@@ -108,7 +108,7 @@ const userApi = ({dispatch,getState})=>next=> async action=>{
             console.log('the response.data: ',response.data);
             dispatch({type:onSuccess,payload:response.data})
         }
-        // load sign-in user info operation
+        // load authenticated user info operation( if token still valid)
         else if(url.match(/load/)){
             const response = await axios.request({
                 baseURL,
@@ -132,25 +132,31 @@ const userApi = ({dispatch,getState})=>next=> async action=>{
             console.log('response.headers: ',response.headers);
             console.log('response.config: ',response.config);
             if(onSuccess) dispatch({type:onSuccess,payload:response.data})
-            if(url==='/signout'){
-                history.push('/login')
+            if(url.match(/signout/)){
+                // history.push('/login')
                 dispatch(postsDataCleared())
                 dispatch(commentsCleared())
+                setTimeout(() => {
+                    dispatch(statusCleared())
+                }, 2000);
             }else if(url==='/reset_request' || url==='/reset'){
                 return
             }
             else{
                 setTimeout(() => {
-                    history.push('/home')
+                    // history.push('/home')
                     dispatch(statusCleared())
-                }, 800);
+                }, 2000);
             }   
         }
         
     } catch (error) {
         console.log('error response: ',error.response);
         console.log('error.response.data.message: ',error.response.data.message);
-        if(error.response.status===401)history.push('/login')
+        if(error.response.status===401){
+            // history.push('/login')
+            dispatch({type:onFail,payload:{code:error.response.status, message:error.response.data.message}})
+        }
         else if(error.response.status===404) history.replace('/not_found')
         else{
             if(onFail)

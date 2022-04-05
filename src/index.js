@@ -2,16 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import {BrowserRouter} from 'react-router-dom'
+// import {BrowserRouter} from 'react-router-dom'
 import {HelmetProvider} from 'react-helmet-async'
+
+import {Provider} from 'react-redux'
+import configureStore from './store/configureStore'
+
+const store = configureStore()
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <Provider store={store}>
+    {/* <BrowserRouter> */}
       <HelmetProvider>
         <App />
       </HelmetProvider>
-      </BrowserRouter>
+      {/* </BrowserRouter> */}
+    </Provider>
  </React.StrictMode>,
   document.getElementById('root')
 );

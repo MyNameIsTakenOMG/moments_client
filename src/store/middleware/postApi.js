@@ -23,10 +23,10 @@ const postApi = ({getState,dispatch})=>next=>async(action)=>{
         dispatch({type:onStart})
     try {
         // decide if user is logged in
-        if(!getState().entities.user.name){
-            const userResponse = await axios.get('/api/user/load',{baseURL,withCredentials:true})
-            dispatch(userInfoLoaded(userResponse.data))
-        }
+        // if(!getState().entities.user.name){
+        //     const userResponse = await axios.get('/api/user/load',{baseURL,withCredentials:true})
+        //     dispatch(userInfoLoaded(userResponse.data))
+        // }
         // like operation
         if(url.search(/toggle_like/)!==-1){
             const {path,id} = action.payload

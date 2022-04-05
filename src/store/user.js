@@ -41,9 +41,29 @@ const Slice = createSlice({
             code:null,
             message:'',
             key:null
+        },
+        authStatus:{
+            code:null,
+            message:'',
+            key:null
         }
     },
     reducers:{
+        authRequested:(state,action)=>{
+            state.isLoading=true
+        },
+        authRequestedFailed:(state,action)=>{
+            const {code,message}= action.payload
+            state.authStatus.code = code
+            state.authStatus.message =message
+            state.authStatus.key = new Date().getTime()
+            state.isLoading = false
+        },
+        authStatusCleared:(state,action)=>{
+            state.authStatus.code=null
+            state.authStatus.message=''
+            state.authStatus.key=null
+        },
         statusCleared:(state,action)=>{
             state.status.code=null
             state.status.message=''
@@ -131,12 +151,16 @@ const Slice = createSlice({
             state.isLoading = true
         },
         userInfoLoaded:(state,action)=>{
-            const {username,new_notifs,...others} = action.payload
+            const {user,message} = action.payload
+            const {username,new_notifs,...others} = user
             state.name = username
             state.notifications.new_notifs = new_notifs
             for(let i in others){
                 state[i] = others[i]
             }
+            state.authStatus.code =200
+            state.authStatus.message = message
+            state.authStatus.key = new Date().getTime()
             state.isLoading = false
         },
         userRegistered:(state,action)=>{
@@ -324,9 +348,9 @@ export const loadUserInfo  = (history)=>userApiCall({
     method:'get',
     url:'/load',
     history,
-    onStart:Slice.actions.userRequested.type,
+    onStart:Slice.actions.authRequested.type,
     onSuccess:Slice.actions.userInfoLoaded.type,
-    onFail:Slice.actions.userRequestedFailed.type
+    onFail:Slice.actions.authRequestedFailed.type
 })
 
 export const editUserProfile = (username,data,history)=>userApiCall({
@@ -395,6 +419,10 @@ export const getUserStatus = createSelector(
     user=>user.status
 )
 
+export const getAuthStatus = createSelector(
+    state=>state.entities.user,
+    user=>user.authStatus
+)
 export const getUserInfo = createSelector(
     state=>state.entities.user,
     user=>user
