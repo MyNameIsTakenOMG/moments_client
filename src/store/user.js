@@ -265,7 +265,7 @@ const Slice = createSlice({
     }
 })
 
-export const {statusCleared,profileCleared,usersSearchCleared,userInfoLoaded,usersSearchReceived,notifNumIncremented,notifsCleared} = Slice.actions
+export const {userProcessFailed,statusCleared,profileCleared,usersSearchCleared,userInfoLoaded,usersSearchReceived,notifNumIncremented,notifsCleared} = Slice.actions
 
 export default Slice.reducer
 

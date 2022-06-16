@@ -1,7 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import './App.css';
-// import {Provider} from 'react-redux'
-// import configureStore from './store/configureStore'
 import {BrowserRouter} from 'react-router-dom'
 
 import {Switch,Route, Redirect} from 'react-router-dom'
@@ -9,7 +7,7 @@ import MainPage from './pages/MainPage';
 import LoginPage from './pages/LoginPage';
 import ResetPage from './pages/ResetPage'
 
-// const store = configureStore()
+import {GoogleOAuthProvider} from '@react-oauth/google'
 
 import useLoadAuth from './hooks/useLoadAuth';
 import { useSelector } from 'react-redux';
@@ -18,18 +16,12 @@ import { getUserInfo } from './store/user';
 function App() {
 
   const {isAuthLoaded} = useLoadAuth()
-  const userInfo = useSelector(getUserInfo) //------> cause  page re-render??? maybe store it in ref(userRef)
-
-  // const username = useRef(userInfo.name)
-  
-  // useEffect(()=>{
-  //   username.current = userInfo.name
-  // },[userInfo.name])
+  const userInfo = useSelector(getUserInfo) 
 
 
   return (
     <div className="App">
-      {/* <Provider store={store}> */}
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
       {isAuthLoaded && (
         <BrowserRouter>
           <Switch>
@@ -48,7 +40,7 @@ function App() {
           </Switch>
         </BrowserRouter>
       )}
-      {/* </Provider> */}
+      </GoogleOAuthProvider>
     </div>
   );
 }

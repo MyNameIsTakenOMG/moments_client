@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import {useHistory} from 'react-router-dom'
-import {statusCleared,getUserStatus,getUserProcessing,signUpUser,signInUser, sendResettingRequest} from '../store/user'
+import {userProcessFailed,statusCleared,getUserStatus,getUserProcessing,signUpUser,signInUser, sendResettingRequest} from '../store/user'
 import {useDispatch, useSelector} from 'react-redux'
-import GoogleLogin from 'react-google-login'
 import joiSchemas from '../validations/joiSchemas'
-
+import {useGoogleLogin} from '@react-oauth/google'
 import { createTheme,ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Avatar  from '@mui/material/Avatar';
@@ -14,6 +13,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import GoogleIcon from '@mui/icons-material/Google';
 import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 import SnackBar from '../components/SnackBar/SnackBar'
@@ -33,7 +33,6 @@ export default function LoginPage() {
     const processing = useSelector(getUserProcessing)
     const status = useSelector(getUserStatus)
 
-    // const [openOverlay,setOpenOverlay] = useState(false)
     const [isSignup,setIsSignup] = useState(false)
     const [isResetting,setIsResetting] = useState(false)
     const [isSignin,setIsSignin] = useState(false)
@@ -157,13 +156,21 @@ export default function LoginPage() {
     }
 
     // sign in with google
-    const responseGoogle = async(response)=>{
-        try {
-            console.log('response: ',response);
-            dispatch(signInUser({token:response.tokenId},history))
-        } catch (error) {
-            console.log(error);
+    const googleLogin = useGoogleLogin({
+        onSuccess: response=>{
+            const accessToken = response.access_token
+            console.log('accessToken: ',accessToken);
+            dispatch(signInUser({token:accessToken},history))
+        },
+        onError: error=>{
+            console.log('error: ',error);
+            dispatch(userProcessFailed({code:error.status,message:error.statusText}))
         }
+    })
+    const CustomGoogleLogin = ({children,login})=>{
+        return(
+            <Button variant='outlined' onClick={login} startIcon={<GoogleIcon />}>{children}</Button>
+        )
     }
     
     const handleSignupOpenClick = (e)=>{
@@ -298,7 +305,9 @@ export default function LoginPage() {
                         <Typography variant='h4' fontWeight={700}>
                             Sign into Moments
                         </Typography>
-                        <GoogleLogin className='googleBtn' clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID} buttonText='Sign in with Google' onSuccess={responseGoogle} onFailure={responseGoogle} cookiePolicy={'single_host_origin'}/>
+
+                        <CustomGoogleLogin login={googleLogin} >Sign in with Google</CustomGoogleLogin>
+
                         <Divider>or</Divider>
                         <form onSubmit={handleSubmit} style={{display:'flex',flexFlow:'column nowrap',marginBottom:'2rem'}}>
                             <TextField error={signinError['si_user']?true:false} helperText={signinError['si_user']?signinError['si_user']:null} id='si_user' name='si_user' value={signinForm.si_user} label='username or email address'  required aria-required onChange={handleSigninFormChange} />
