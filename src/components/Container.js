@@ -22,11 +22,11 @@ const MyContainer = styled('div')(({theme})=>({
     position:'relative',
     boxShadow:`1px 0 3px ${grey[400]}`,
     [theme.breakpoints.up('sm')]:{
-        width:'50%',
+        width:'66%',
     },
     [theme.breakpoints.up('md')]:{
-        width:'45%',
-        // maxWidth:'648px'
+        width:'50%',
+        maxWidth:'600px'
     }
 }))
 

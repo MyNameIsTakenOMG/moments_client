@@ -19,10 +19,10 @@ export default function MainPage() {
     return (
         <Box sx={{position:'relative',width:'100%',height:'100%',overflow:'hidden',display:'flex',flexFlow:'column nowrap'}}>
             <Banner />
-            <Box sx={{height:'calc(100% - 72px)',display:'flex',justifyContent:{sm:'flex-end'},flexFlow:{xs:'column nowrap',sm:'row-reverse nowrap'}}}>
+            <Box sx={{height:'calc(100% - 72px)',display:'flex',justifyContent:{sm:'center'},flexFlow:{xs:'column nowrap',sm:'row-reverse nowrap'}}}>
                 {/* profile board  */}
                 {/* <Box sx={{display:{xs:'none',sm:'block'},width:{sm:'30%',md:'35%'},maxWidth:'504px'}}> */}
-                <Box sx={{display:{xs:'none',sm:'block'},width:{sm:'30%',md:'35%'}}}>
+                <Box sx={{display:{xs:'none',md:'block'},width:{md:'30%'},maxWidth:'360px'}}>
                     <Paper elevation={2} sx={{mx:3,mt:1, overflow:'hidden'}}>
                         <Stack direction={'column'}  spacing={2} pb={1}>
                             <Box sx={{borderRadius:'4px 4px 0 0',display:'flex',justifyContent:'center',alignItems:'center',width:'100%',aspectRatio:(4 / 3).toString(),backgroundColor:lightBlue[600]}}>

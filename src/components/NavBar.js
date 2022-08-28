@@ -27,10 +27,17 @@ const MyNavBar = styled('div')(({theme})=>({
     [theme.breakpoints.up('sm')]:{
         boxShadow:`1px 0 1px ${grey[300]}`,
         flexFlow:'nowrap column',
-        width:'20%',
+        width:'33%',
         // maxWidth:'288px',
         position:'static'
     },
+    [theme.breakpoints.up('md')]:{
+        boxShadow:`1px 0 1px ${grey[300]}`,
+        flexFlow:'nowrap column',
+        width:'20%',
+        maxWidth:'240px',
+        position:'static'
+    }, 
     zIndex:10
 }))
 
